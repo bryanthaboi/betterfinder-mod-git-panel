@@ -1,0 +1,130 @@
+{
+  "manifestVersion": 1,
+  "id": "bryanthaboi.git-panel",
+  "name": "Git Panel",
+  "author": "bryanthaboi",
+  "version": "1.0.0",
+  "api": ">=1.0.0 <2.0.0",
+  "app": ">=1.0.0 <2.0.0",
+  "runtime": "ts/1",
+  "entry": "scripts/main.ts",
+  "license": "MIT",
+  "permissions": [
+    {
+      "kind": "ui",
+      "surfaces": [
+        "panel",
+        "contextMenu",
+        "statusBar"
+      ]
+    },
+    {
+      "kind": "fs.read",
+      "scope": "selection",
+      "recursive": true,
+      "reason": "Read .git in the folder you are viewing to show branch and remote info"
+    },
+    {
+      "kind": "ui.selection",
+      "level": "paths",
+      "reason": "Know which repository and items git commands apply to"
+    },
+    {
+      "kind": "process.exec",
+      "mode": "unrestricted",
+      "reason": "Run git to switch branches, show status, and append ignore rules; each run asks first"
+    }
+  ],
+  "contributes": {
+    "panels": [
+      {
+        "id": "git",
+        "title": "Git",
+        "edge": "right",
+        "presentation": "slideOut",
+        "icon": "arrow.triangle.branch"
+      }
+    ],
+    "statusBar": [
+      {
+        "id": "branch",
+        "title": "Git Branch",
+        "alignment": "trailing",
+        "panel": "git",
+        "command": "refresh"
+      }
+    ],
+    "commands": [
+      {
+        "id": "refresh",
+        "title": "Refresh Git Info",
+        "handler": "command",
+        "category": "Git"
+      },
+      {
+        "id": "status",
+        "title": "Git Status",
+        "handler": "command",
+        "category": "Git"
+      },
+      {
+        "id": "switch-select",
+        "title": "Switch Branch",
+        "handler": "command",
+        "category": "Git"
+      },
+      {
+        "id": "create-branch",
+        "title": "Create Branch",
+        "handler": "command",
+        "category": "Git"
+      },
+      {
+        "id": "add-gitignore",
+        "title": "Add to .gitignore",
+        "handler": "command",
+        "category": "Git"
+      },
+      {
+        "id": "add-exclude",
+        "title": "Hide from Git (Local Only)",
+        "handler": "command",
+        "category": "Git"
+      }
+    ],
+    "contextMenu": [
+      {
+        "id": "gitignore",
+        "title": "Add to .gitignore",
+        "target": "items",
+        "command": "add-gitignore"
+      },
+      {
+        "id": "exclude",
+        "title": "Hide from Git (Local Only)",
+        "target": "items",
+        "command": "add-exclude"
+      }
+    ]
+  },
+  "hooks": [
+    {
+      "name": "activate",
+      "handler": "activate",
+      "version": 1
+    },
+    {
+      "name": "location.changed",
+      "handler": "locationChanged",
+      "version": 1
+    },
+    {
+      "name": "command.run",
+      "handler": "command",
+      "version": 1
+    }
+  ],
+  "settings": [],
+  "dependencies": [],
+  "conflicts": []
+}
